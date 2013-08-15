@@ -2,16 +2,29 @@
 # Simple setup.sh for configuring Ubuntu 12.04 LTS EC2 instance
 # for headless setup.
 
+# Update package information before installing anything.
+sudo apt-get update
+
 # Install nvm: node-version manager
 # https://github.com/creationix/nvm
 sudo apt-get install -y git
 sudo apt-get install -y curl
+git config --global user.name "GlobalN0mad"
+git config --global user.email Mark.Cheshire@sloan.mit.edu
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
 # Load nvm and install latest production node
 source $HOME/.nvm/nvm.sh
 nvm install v0.10.12
 nvm use v0.10.12
+
+# Install Node Package Manager (npm) and some commonly used node packages.
+sudo apt-get install -y npm
+sudo npm install -g commander   # Command-line flags.
+sudo npm install -g csv         # Work with CSV files.
+sudo npm install -g jshint      # Allow checking JS code within emacs.
+sudo npm install -g restler     # Make REST API calls.
+
 
 # Install jshint to allow checking of JS code within emacs
 # http://jshint.com/
@@ -39,10 +52,13 @@ fi
 if [ -d .emacs.d/ ]; then
     mv .emacs.d .emacs.d~
 fi
-git clone https://github.com/startup-class/dotfiles.git
+git clone https://github.com/GlobalN0mad/dotfiles.git
 # ln -sb dotfiles/.screenrc .
 ln -sb dotfiles/.bash_profile .
 ln -sb dotfiles/.bashrc .
 ln -sb dotfiles/.bashrc_custom .
+ln -sb dotfiles/.gitconfig .
 # ln -sf dotfiles/.emacs.d .
 
+# Load bash dotfiles just setup.
+source $HOME/.bash_profile
